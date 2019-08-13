@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC
+"-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.lid.common.vo.Member" alias="member"/>
+		<typeAlias type="com.kh.lid.common.typeHandler.StringArrayTypeHandler" alias="strArrTypeHandler"/>
+		<typeAlias type="com.kh.lid.common.vo.Question" alias="question"/>
+
+		<typeAlias type="com.kh.lid.common.vo.FAQ" alias="faq"/>
+		<typeAlias type="com.kh.lid.common.vo.Notice" alias="notice"/>
+		<typeAlias type="com.kh.lid.common.vo.MemberProfile" alias="memberProfile"/>
+		<typeAlias type="com.kh.lid.common.vo.Block" alias="block"/>
+		<typeAlias type="com.kh.lid.common.vo.MatchingSetting" alias="matchingSetting"/>
+		<typeAlias type="com.kh.lid.common.vo.Payment" alias="payment"/>
+		
+		<typeAlias type="com.kh.lid.common.vo.Board" alias="board"/>
+		<typeAlias type="com.kh.lid.common.vo.BoardImage" alias="boardImage"/>
+		<typeAlias type="com.kh.lid.common.vo.BoardTags" alias="boardTags"/>
+
+		<typeAlias type="com.kh.lid.common.vo.MemberFollow" alias="memberFollow"/>
+
+	</typeAliases>
+
+	<!-- 어느 부분에 typeHandler를 적용할 것인지 패키지 영역을 설정한다. -->
+	<typeHandlers>
+		<package name="com.kh.lid.common.typeHandler"/>
+	</typeHandlers>
+	
+</configuration>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="question">
+
+	<!-- 문의하기 작성 -->
+	<insert id="insertQuestion" parameterType="hashMap">
+		INSERT INTO QUESTION 
+		VALUES (SEQ_QUESTION.NEXTVAL, #{mNo}, #{question.qTitle}, #{question.qCategory}, #{question.qContent}, SYSDATE)
+	</insert>
+	
+	<!-- 문의 내역 조회 -->
+	<select id="selectQuestionList" resultType="question">
+		SELECT * FROM QUESTION Q
+		JOIN MEMBER M ON (Q.QMNO = M.MNO)
+		WHERE M.MNO= #{member.mNo}
+		ORDER BY QDATE DESC
+	</select>
+	
+	<!-- 문의 총 갯수 -->
+	<select id="selectQuestionTotalContents" resultType="_int">
+		SELECT COUNT(*) FROM QUESTION
+	</select>
+	
+	<!-- 문의하기 한개 조회 -->
+	<select  id="selectOneQuestion" parameterType="_int" resultType="question">
+		SELECT * FROM QUESTION 
+		WHERE QNO = #{qNo} 
+	</select>
+	
+	<!-- 문의하기 수정 -->
+	<update id="updateQuestion" parameterType="question">
+		UPDATE QUESTION SET
+			 QTITLE = #{qTitle},
+			 QCONTENT = #{qContent}
+		WHERE QNO = #{qNo}
+	</update>
+	
+	<!-- 문의하기 삭제 -->
+	<delete id="deleteQuestion">
+		DELETE FROM QUESTION
+		WHERE QNO = #{qNo}
+	</delete>
+	
+</mapper>

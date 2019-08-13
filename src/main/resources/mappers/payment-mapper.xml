@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="payment">
+
+
+   <insert id="insertPayment" parameterType="payment">
+         INSERT INTO PAYMENT VALUES
+      (SEQ_PAYMENT.NEXTVAL, SYSTIMESTAMP, SYSTIMESTAMP+ #{pTicket}, #{pTicket}, #{pMno})
+   </insert>
+   
+   <select id="checkPay" parameterType="_int" resultType="_int">
+      SELECT COUNT(*) FROM PAYMENT WHERE PMNO = #{mNo} AND PODATE > SYSDATE
+   </select>
+   
+  <!-- 정기권 확인하기 -->
+   <select id="seasonTicketList" parameterType="_int" resultType="payment">
+      SELECT PTICKET, PDATE, PODATE, PODATE, TRUNC(P.PODATE-SYSDATE) PSTATUS FROM PAYMENT P
+   JOIN MEMBER M ON (M.MNO = P.PMNO)
+   WHERE MNO =#{mNo}
+   </select>
+</mapper>

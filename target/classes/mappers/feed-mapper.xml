@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper PUBLIC
+"-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+<resultMap id="boardImageMap" type="boardImage"/>
+<!-- 
+<resultMap id="boardMap" type="map"/>
+<resultMap id="boardImgtMap" type="BoardImage"/> -->
+
+    <!-- 
+   <resultMap id="resultMember" type="member">
+      
+      <result property="hobby" column="hobby" typeHandler="strArrTypeHandler" />
+      
+   </resultMap>
+    -->
+     
+   <resultMap id="resultBoardImage" type="boardImage">
+   <id property="biNo" column="BINO"/>
+   <result property="biBNo" column="BIBNO"></result>
+   <result property="biName" column="BINAME"></result>
+   <result property="biFilter" column="BIFILTER"></result>
+   
+   </resultMap>
+   
+   
+   <resultMap id="resultBoardNImage" type="board">
+   
+   <id property="bNo" column="BNO"/>
+   <result property="bContent" column="BCONTENT"></result>
+   <result property="bMno" column="BMNO"></result>
+   <result property="bDate" column="BDATE"></result>
+   <result property="bCount" column="BCOUNT"></result>
+   
+   <collection property="images" ofType="BoardImage" column="BNO" resultMap="resultBoardImage"/>
+   
+   </resultMap>
+   
+   
+   
+   
+   
+   
+   
+   
+   <insert id="insertFeedContent" parameterType="board">
+   
+		INSERT INTO BOARD
+		VALUES (SEQ_BOARD.NEXTVAL, #{bContent}, 
+		        #{bMno}, SYSDATE, DEFAULT)
+   
+   	    <selectKey keyProperty="bNo" resultType="_int" order="AFTER">
+			SELECT SEQ_BOARD.CURRVAL FROM DUAL
+		</selectKey>
+   </insert>
+   
+   <insert id="insertFeedImg" parameterType="boardImage">
+      
+      <selectKey keyProperty="biBNo" resultType="_int" order="BEFORE">
+			SELECT SEQ_BOARD.CURRVAL FROM DUAL
+		</selectKey>
+      
+      INSERT INTO BOARD_IMG VALUES(
+         SEQ_BOARD_IMG.NEXTVAL, #{biBNo}, #{biName},
+         #{biFilter})
+         
+   </insert>
+   
+   	
+   	
+    <insert id="insertFeedTags" parameterType="boardTags">
+      
+      <selectKey keyProperty="btBno" resultType="_int" order="BEFORE">
+			SELECT SEQ_BOARD.CURRVAL FROM DUAL
+		</selectKey>
+      
+      INSERT INTO BOARD_TAGS VALUES(
+         SEQ_BOARD_TAGS.NEXTVAL, #{btBno}, #{btContent},
+         NULL)
+         
+   </insert>
+    
+    <insert id="insertFeedCommentTags" parameterType="boardTags">
+      
+      <selectKey keyProperty="bCno" resultType="_int" order="BEFORE">
+			SELECT SEQ_BOARD.CURRVAL FROM DUAL
+		</selectKey>
+      
+         INSERT INTO BOARD_TAGS VALUES(
+         SEQ_BOARD_TAGS.NEXTVAL, NULL, #{btContent},
+         #{btContent})
+         
+   </insert>
+   
+   
+   <!-- <select id="selectFeedList" resultType="board">
+		SELECT * FROM BOARD
+		WHERE BMNO = #{bMno}
+		ORDER BY BDATE DESC
+   </select> -->
+  
+  	<select id="selectFeedTotalContent" resultType="_int">
+		SELECT COUNT(*) FROM BOARD WHERE BMNO = #{bMno}
+	</select>
+  
+  <select id="selectboardImgtList" parameterType="_int" resultMap="boardImageMap">
+		SELECT * FROM BOARD_IMAGE WHERE BIBNO = #{biBNo}
+	</select>
+  
+  <select id="selectFeedList" resultMap="resultBoardNImage">
+		SELECT * 
+		FROM BOARD B, BOARD_IMG BI
+		WHERE B.BNO = BI.BIBNO AND BMNO = #{bMno}
+		ORDER BY BDATE DESC
+   </select>
+  
+  
+  
+  
+</mapper>
