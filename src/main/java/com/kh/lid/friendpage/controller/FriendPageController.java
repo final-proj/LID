@@ -28,6 +28,7 @@ public class FriendPageController {
 							   HttpSession session) {
 		
       return "friendpage/friendpage-about";
+      
    }
    
    

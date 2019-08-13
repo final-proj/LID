@@ -5,22 +5,22 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html lang="ko">
-   <head>
-      <title>Love in Daily</title>
-   <!-- stylesheet.jsp -->
-   <c:import url="../common/stylesheet.jsp" />
-   
-     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-   </head>
-   
+
+	<head>
+		<title>Love in Daily</title>
+	<!-- stylesheet.jsp -->
+	<c:import url="../common/stylesheet.jsp" />
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  	
+	</head>
+	
 <body>
+
+
+	<!-- header 영역 -->
+	<c:import url="../common/header.jsp" />
 	
-	
-	
-   <!-- header 영역 -->
-   <c:import url="../common/header.jsp" />
+
 
     <div class="container">
 
@@ -58,12 +58,14 @@
           
             <div class="col-md-3"></div>
             <div class="col-md-7">
-          
-             <div class="create-post">
-                     <div class="row">
-                        <div class="col-md-12">
-                           <div class="tools">
-                              <div class="input-group ui-widget">
+
+			 
+			 	<div class="create-post">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="tools">
+									   <div class="input-group ui-widget">
+
                                                         <div class="input-group-btn">
                                                             <button class="btn btn-primary">
                                                                 <i class="fa fa-search"></i> Search
@@ -238,89 +240,64 @@
 
 
     <!-- script  -->
-   <c:import url="../common/scripts.jsp" />
-   
-   
-   <script>
-/*    
-    $( function() {
-        var availableTags = [
-          "ActionScript",
-          "AppleScript",
-          "Asp",
-          "BASIC",
-          "C",
-          "C++",
-          "Clojure",
-          "COBOL",
-          "ColdFusion",
-          "Erlang",
-          "Fortran",
-          "Groovy",
-          "Haskell",
-          "Java",
-          "JavaScript",
-          "Lisp",
-          "Perl",
-          "PHP",
-         "Python",
-          "Ruby",
-          "Scala",
-          "Scheme"
-        ];
-        $( "#searchForm" ).autocomplete({
-          source: availableTags
-        });
-      } );
-    */
+	<c:import url="../common/scripts.jsp" />
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	
+	
+<script>
  var curinput;
 $(function() {   
     $("#searchForm").autocomplete({
-       
-       source: function( request, response ) { 
-       console.log(request.term);
+    	
+    	source: function( request, response ) { 
+    	console.log(request.term);
             $.ajax({
-               type: 'post',
-               dataType: "json",
+            	type: 'post',
+            	dataType: "json",
               url: "searchAccount.do",
               data: {
                 term: request.term
               },
               success: function(data) { 
-                 var cnt = 0;
-                 console.log(data);
-                 response(
-                       $.map(data, function(item) {
-                             return {
-                                   label: item.id,
-                                   value: item.id,
-                                   tag: item.tags,
-                                   count: item.count,
-                                   category : item.category,
-                                   index: cnt++
-                                   /* link: item.link,
-                                   img: item.img,
-                                   name: item.name */
-                                }
-                 })
-                 );
-                 
+
+            	  var cnt = 0;
+            	  console.log(data);
+            	  response(
+            			  $.map(data, function(item) {
+            					  return {
+                        			  label: item.id,
+                        			  value: item.id,
+                        			  tag: item.tags,
+                        			  count: item.count,
+                        			  category : item.category,
+                        			  index: cnt++,
+                        			  link: item.link,
+                        			  /* img: item.img,
+                        			  name: item.name */ 
+                        		  }
+            					  console.log(link);
+            	  })
+            	  );
+            	  
+
                 
                 }
             });
 
           },
-/*         select: function(event, ui) {     링크부분
+         select: function(event, ui) {     
             console.log(ui.item);
             
             window.location = ui.item.link;
-        }, */
+        },  
 
         focus: function(event, ui) {
-           $(".div0").css("background", "none");
-           $("#autodiv"+ui.item.index).css("background-color", "lightgrey");
-           console.log(ui.item.index);
-           return false;
+
+        	$(".div0").css("background", "none");
+        	$("#autodiv"+ui.item.index).css("background-color", "lightgrey");
+        	console.log(ui.item.index);
+        	return false;
+
         },
         messages: {
             noResults: '',
@@ -329,14 +306,15 @@ $(function() {
 
     })
     .autocomplete("instance")._renderItem = function(div, item) {
-       if(item.category == "People") {
-          return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img  id='searchimg' src='"${path}/resources/images/icon/account_img3.png"'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>"+item.label+"</span><br></div></div></div>").appendTo(div);
-          /* return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img  id='searchimg' src='"+item.img+"'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>"+item.label+"</span><br><span style='color: gray;'>"+item.name+"</span></div></div></div>").appendTo(div); */
-       }else if(item.category == "Tag") {
-          return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>#"+item.tag+"</span><br><span style='color: gray;'>게시물 "+item.count+"개</span></div></div></div>").appendTo(div);
-          /* return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img id='searchimg' src='"+item.img+"'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>#"+item.tag+"</span><br><span style='color: gray;'>게시물 "+item.count+"개</span></div></div></div>").appendTo(div); */
-       }
-       
+
+    	if(item.category == "People") {
+    		return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><div><img  id='searchimg' style='width:50px; height:50px;' src='${pageContext.request.contextPath}/resources/images/icon/account_img3.png'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px; float:right;'>"+item.label+"</div></span><br></div></div></div>").appendTo(div);
+    		/* return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img  id='searchimg' src='"+item.img+""><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>"+item.label+"</span><br><span style='color: gray;'>"+item.name+"</span></div></div></div>").appendTo(div); */
+    		/* return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img  id='searchimg' src='"+item.img+"'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>"+item.label+"</span><br><span style='color: gray;'>"+item.name+"</span></div></div></div>").appendTo(div); */
+    	}else if(item.category == "Tag") {
+    		return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>#"+item.tag+"</span><br><span style='color: gray;'>게시물 "+item.count+"개</span></div></div></div>").appendTo(div);
+    		/* return $("<div class='div0' id='autodiv"+item.index+"'>").append("<div><div id='div1'><img id='searchimg' src='"+item.img+"'><div id='textdiv'><span style='color: black; font-weight: bold; font-size: 16px;'>#"+item.tag+"</span><br><span style='color: gray;'>게시물 "+item.count+"개</span></div></div></div>").appendTo(div); */
+    	}
     };
     
     
